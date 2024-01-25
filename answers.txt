@@ -1,0 +1,14 @@
+1 - Worst case input for linear and binary search
+The worst case runtime for binary search is the case
+Where the item is not in the list, causing the algorithm
+To run for logn iterations
+
+2 - Best case input for binary search
+The base case input to my implementation of binary search is one s.t. 
+the key is at idx (left + right) // 2, as it then runs for
+Only one iteration
+
+The best case for linear search is for the element to be at index 0, as
+then it will check that one first.
+
+For questions 9-10, please see main.py
