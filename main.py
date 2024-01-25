@@ -34,6 +34,27 @@ def _binary_search(mylist, key, left, right):
 	"""
 	### TODO
 
+	#confirm input array is sorted
+	#performance could be increased by
+	#just doing this once in binary_search
+	#mylist = sorted(mylist)
+
+	mid = (left + right) // 2
+
+	if (mylist[mid] != key and left >= right):
+		return -1
+
+	if (mylist[mid] == key): 
+		return mid
+	elif (mylist[mid] < key):
+		return _binary_search(mylist, key, mid + 1, right)
+	elif (mylist[mid] > key):
+		return _binary_search(mylist, key, left, mid - 1)
+	
+
+
+
+
 	###
 
 
@@ -59,6 +80,13 @@ def time_search(search_fn, mylist, key):
 	"""
 	### TODO
 
+	start_time = time.time()
+	search_fn(mylist, key)
+	end_time = time.time()
+	return (end_time - start_time) * 1000
+	#end_time - start_time -> time elapsed, times 1000 to convert to ms
+
+
 	###
 
 def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
@@ -78,6 +106,20 @@ def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
 	"""
 	### TODO
 
+	results = []
+
+	for size in sizes:
+
+		test_list = list(range(int(size)))
+
+		linear_size = time_search(linear_search, test_list, -1)
+		binary_size = time_search(binary_search, test_list, -1)
+
+		results.append((size, linear_size, binary_size))
+	
+	return results
+
+
 	###
 
 def print_results(results):
@@ -87,3 +129,35 @@ def print_results(results):
 							floatfmt=".3f",
 							tablefmt="github"))
 
+
+#print_results(compare_search())
+"""
+The above evaluates to:
+
+ % python3 main.py
+|            n |   linear |   binary |
+|--------------|----------|----------|
+|       10.000 |    0.002 |    0.002 |
+|      100.000 |    0.004 |    0.003 |
+|     1000.000 |    0.038 |    0.011 |
+|    10000.000 |    0.383 |    0.005 |
+|   100000.000 |    3.812 |    0.006 |
+|  1000000.000 |   41.543 |    0.024 |
+| 10000000.000 |  542.593 |    0.032 |
+
+Yes, these results are pretty in line with our run time assessment,
+though there is some loss to performance due to my probably not 100%
+optimal implementation. I'd imagine there is also some loss in time 
+due to all the recursive calls
+"""
+
+
+"""
+Question 10
+------------
+The worst case complexity for linear searching a list of n elements k times is O(nk)
+The worst case complexity for binary searching a list of n elements k times in O(klogn)
+
+For input < 10, the binary search after sorting is faster. Otherwise, for an unsorted list 
+It is better to just stick to linear search
+"""
